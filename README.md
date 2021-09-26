@@ -1,91 +1,23 @@
-# <h1 align="center"> DappTools Template </h1>
+# <h1 align="center"> Let's serve sushi together ! </h1>
 
-**Template repository for getting started quickly with DappTools**
+Community faucet to maintain the Bar served, users serving the bar get reimbursed the gas cost (only baseFee) :sushi:
 
-![Github Actions](https://github.com/gakonst/dapptools-template/workflows/Tests/badge.svg)
+## WAIT WHAT ?
 
-## Building and testing
+**Anyone can donate ETH to the contract, once donated, ETH can not be claimed back.**
 
-```sh
-git clone https://github.com/gakonst/dapptools-template
-cd dapptools-template
-make
-make test
-```
+/!\ ITS A DONATION /!\
 
-## Deploying
+Nevertheless, we can imagine poaps, leaderboard and other things to incentives donations.
 
-Contracts can be deployed via the `make deploy` command. Addresses are automatically
-written in a name-address json file stored under `out/addresses.json`.
+**Anyone can serve the Bar and receive a compensation if :**
 
-We recommend testing your deployments and provide an example under [`scripts/test-deploy.sh`](./scripts/test-deploy.sh)
-which will launch a local testnet, deploy the contracts, and do some sanity checks.
+* Bar hasn't been served in the last 72 hours.
+* Sushi price is 5% or more under the 7D TWAP price.
+* Block.baseFee < X GWEI, starts at 50 GWEI then increase by 1 GWEI every hours.
 
-Environment variables under the `.env` file are automatically loaded (see [`.env.example`](./.env.example)).
-Be careful of the [precedence in which env vars are read](https://github.com/dapphub/dapptools/tree/2cf441052489625f8635bc69eb4842f0124f08e4/src/dapp#precedence).
+## HOLLY F*** ITS BUILT ON TOP OF BENTOBOX
 
-We assume `ETH_FROM` is an address you own and is part of your keystore.
-If not, use `ethsign import` to import your private key.
+its built on BentoBox so ETH sent are wrapped into WETH and earn interest.
 
-See the [`Makefile`](./Makefile#25) for more context on how this works under the hood
-
-We use Alchemy as a remote node provider for the Mainnet & Rinkeby network deployments.
-You must have set your API key as the `ALCHEMY_API_KEY` enviroment variable in order to
-deploy to these networks
-
-### Mainnet
-
-```
-ETH_FROM=0x3538b6eF447f244268BCb2A0E1796fEE7c45002D make deploy-mainnet
-```
-
-### Rinkeby
-
-```
-ETH_FROM=0x3538b6eF447f244268BCb2A0E1796fEE7c45002D make deploy-rinkeby
-```
-
-### Custom Network
-
-```
-ETH_RPC_URL=<your network> make deploy
-```
-
-### Local Testnet
-
-```
-# on one terminal
-dapp testnet
-# get the printed account address from the testnet, and set it as ETH_FROM. Then:
-make deploy
-```
-
-## Installing the toolkit
-
-If you do not have DappTools already installed, you'll need to run the below
-commands
-
-### Install Nix
-
-```sh
-# User must be in sudoers
-curl -L https://nixos.org/nix/install | sh
-
-# Run this or login again to use Nix
-. "$HOME/.nix-profile/etc/profile.d/nix.sh"
-```
-
-### Install DappTools
-
-```sh
-curl https://dapp.tools/install | sh
-```
-
-## DappTools Resources
-
-* [DappTools](https://dapp.tools)
-    * [Hevm Docs](https://github.com/dapphub/dapptools/blob/master/src/hevm/README.md)
-    * [Dapp Docs](https://github.com/dapphub/dapptools/tree/master/src/dapp/README.md)
-    * [Seth Docs](https://github.com/dapphub/dapptools/tree/master/src/seth/README.md)
-* [DappTools Overview](https://www.youtube.com/watch?v=lPinWgaNceM)
-* [Awesome-DappTools](https://github.com/rajivpo/awesome-dapptools)
+When someone serves the Bar, the contract send WETH to user's BentoBox account.
