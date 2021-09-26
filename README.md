@@ -13,11 +13,11 @@ Nevertheless, we can imagine poaps, leaderboard and other things to incentives d
 **Anyone can serve the Bar and receive a compensation if :**
 
 * Bar hasn't been served in the last 72 hours.
-* Sushi price is 5% or more under the 7D TWAP price.
-* Block.baseFee < X GWEI, starts at 50 GWEI then increase by 1 GWEI every hours.
+* Sushi price is 5% or more under the 7D TWAP price (BUY THE DIP).
+* Block.baseFee < X GWEI, starts at 50 GWEI then increase by 1 GWEI every hours (Don't serve the bar when gas spike).
 
 ## HOLLY F*** ITS BUILT ON TOP OF BENTOBOX
 
 its built on BentoBox so ETH sent are wrapped into WETH and earn interest.
 
-When someone serves the Bar, the contract send WETH to user's BentoBox account.
+When someone serves the Bar, the contract reimburse him by sending WETH to the user's BentoBox account.
