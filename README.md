@@ -1,5 +1,7 @@
 # <h1 align="center"> Let's serve sushi together ! </h1>
 
+INSPIRED BY @Stack_bot messages.
+
 Community faucet to maintain the Bar served, users serving the bar get reimbursed the gas cost (only baseFee) :sushi:
 
 ## WAIT WHAT ?
