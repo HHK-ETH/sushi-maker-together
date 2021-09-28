@@ -1,25 +1,34 @@
 # <h1 align="center"> Let's serve sushi together ! </h1>
 
-INSPIRED BY @Stack_bot messages.
+Community faucet to maintain the Bar served, users serving the bar receive a part of the profits to reimburse gas costs :sushi:
 
-Community faucet to maintain the Bar served, users serving the bar get reimbursed the gas cost (only baseFee) :sushi:
+## How does it works ?
 
-## WAIT WHAT ?
+Anyone can send Sushi to the contracts.
 
-**Anyone can donate ETH to the contract, once donated, ETH can not be claimed back.**
+Sushi deposited are staked in the SushiBar.
 
-/!\ ITS A DONATION /!\
+Users will not receive any profits from the SushiBar but can redeem their initial deposit whenever they want.
 
-Nevertheless, we can imagine poaps, leaderboard and other things to incentives donations.
+Because the SushiMaker contract can't be called from another contract.
+When someone wants to serve the Bar, he will have to submit a flashbots bundle containing this contract and SushiMaker contract.
 
-**Anyone can serve the Bar and receive a compensation if :**
+Here is the bundle explained :
 
-* Bar hasn't been served in the last 72 hours.
-* Sushi price is 5% or more under the 7D TWAP price (BUY THE DIP).
-* Block.baseFee < X GWEI, starts at 50 GWEI then increase by 1 GWEI every hours (Don't serve the bar when gas spike).
+* Call register on SushiMakerTogether contract : register the address of the user that is going to serve the Bar.
+* Call convertMultiple with the list of LPs to transform into Sushi on SushiMaker contract : serves the Bar.
+* Call claim on SushiMakerTogether contract : receive 50% of the benefits generated for xSUSHI sitting in the SushiMakerTogether contracts.
 
-## HOLLY F*** ITS BUILT ON TOP OF BENTOBOX
+**What happens to the other 50% ?**
 
-its built on BentoBox so ETH sent are wrapped into WETH and earn interest.
+They are locked in the contract to achieve selfsustaining.
+The idea is that the community and Sushi treasury bootstrap it until it can pays for hitself.
+When reached, anyone can unstake their Sushi tokens and we will have incentive for serving the Bar forever :)
 
-When someone serves the Bar, the contract reimburse him by sending WETH to the user's BentoBox account.
+**Other specifications:**
+
+* Register + claim are locked for 12 hours after being succesfully called for security reasons.
+* This 12 hours lock can be modified by the OPS multisig as well as the 50% fees locked in the contract, at one point if enough Sushi are locked, it makes no sense to lock more, so OPS multisg can set it to 0%, 100% will go to the user serving the Bar.
+* OPS multisig can also claim all the Sushi locked from fees in the contract (not the tokens of the users just the one locked from fees) with a 48hours timelock, in case the contract needs to be updated.
+
+Thanks to @Stack_bot for helping finding this idea.
