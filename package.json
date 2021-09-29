@@ -8,6 +8,7 @@
     "*.sol"
   ],
   "devDependencies": {
+    "@openzeppelin/contracts": "^4.3.2",
     "copyfiles": "^2.4.1",
     "prettier": "^2.3.1",
     "prettier-plugin-solidity": "^1.0.0-beta.13",
