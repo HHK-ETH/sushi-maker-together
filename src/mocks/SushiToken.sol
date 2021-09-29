@@ -2,8 +2,8 @@
 
 pragma solidity ^0.8.0;
 
-import "./../../node_modules/@openzeppelin/contracts/token/ERC20/ERC20.sol";
-import "./../../node_modules/@openzeppelin/contracts/access/Ownable.sol";
+import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
+import "@openzeppelin/contracts/access/Ownable.sol";
 
 // WARNING: There is a known vuln contained within this contract related to vote delegation, 
 // it's NOT recommmended to use this in production.  

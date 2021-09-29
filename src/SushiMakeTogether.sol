@@ -1,10 +1,11 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
-import "./../node_modules/@Openzeppelin/contracts/access/Ownable.sol";
-import "./../node_modules/@openzeppelin/contracts/token/ERC20/IERC20.sol";
-import "./../node_modules/@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
+import "@openzeppelin/contracts/access/Ownable.sol";
+import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
+import "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
 import "./interfaces/ISushiBar.sol";
+import "ds-test/test.sol";
 
 contract SushiMakerTogether is Ownable {
 
