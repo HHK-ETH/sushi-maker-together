@@ -15,20 +15,18 @@ When someone wants to serve the Bar, he will have to submit a flashbots bundle c
 
 Here is the bundle explained :
 
-* Call register on SushiMakerTogether contract : register the address of the user that is going to serve the Bar.
 * Call convertMultiple with the list of LPs to transform into Sushi on SushiMaker contract : serves the Bar.
-* Call claim on SushiMakerTogether contract : receive 50% of the benefits generated for xSUSHI sitting in the SushiMakerTogether contracts.
+* Call claim on SushiMakerTogether contract : claim 50% of the benefits generated for xSUSHI sitting in the SushiMakerTogether contract since last claim.
 
 **What happens to the other 50% ?**
 
 They are locked in the contract to achieve selfsustaining.
-The idea is that the community and Sushi treasury bootstrap it until it can pays for hitself.
-When reached, anyone can unstake their Sushi tokens and we will have incentive for serving the Bar forever :)
+The idea is that the community and Sushi treasury bootstrap it until it can pays for itself.
+When reached, everyone can unstake their Sushi tokens and we will have incentive for serving the Bar forever :)
 
 **Other specifications:**
 
-* Register + claim are locked for 12 hours after being succesfully called for security reasons.
-* This 12 hours lock can be modified by the OPS multisig as well as the 50% fees locked in the contract, at one point if enough Sushi are locked, it makes no sense to lock more, so OPS multisg can set it to 0%, 100% will go to the user serving the Bar.
-* OPS multisig can also claim all the Sushi locked from fees in the contract (not the tokens of the users just the one locked from fees) with a 48hours timelock, in case the contract needs to be updated.
+* OPS multisig can change the 50% fees locked in the contract because at one point if enough Sushi are locked, it makes no sense to lock more, so OPS multisg can set it to 0%, then 100% will go to the user serving the Bar.
+* OPS multisig can also claim all the Sushi locked from fees in the contract (not the tokens of the users just the one locked from fees), in case the contract needs to be updated.
 
 Thanks to @Stack_bot for helping finding this idea.
