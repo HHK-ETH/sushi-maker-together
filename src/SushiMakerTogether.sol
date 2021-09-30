@@ -23,8 +23,8 @@ contract SushiMakerTogether is Ownable {
     // ░░██▓▓    ▓▓▓▓▓▓░░████████▓▓▓▓██
     //
 
-    ISushiBar public sushiBar = ISushiBar(0x8798249c2E607446EfB7Ad49eC89dD1865Ff4272);
-    IERC20 public sushi = IERC20(0x6B3595068778DD592e39A122f4f5a5cF09C90fE2);
+    ISushiBar public sushiBar; //address of the sushiBar
+    IERC20 public sushi; //address of the sushi token
     
     uint256 public LOCKED_ON_SERVING = 50; //Fee locked in the contract, start at 50%
 
@@ -33,7 +33,9 @@ contract SushiMakerTogether is Ownable {
 
     mapping (address => uint256) public balanceOf; //Balance of users that deposit Sushi in the contract
 
-    constructor(address _opsMultisig) {
+    constructor(address _sushi, address _sushiBar, address _opsMultisig) {
+        sushi = IERC20(0x6B3595068778DD592e39A122f4f5a5cF09C90fE2);
+        sushiBar = ISushiBar(0x8798249c2E607446EfB7Ad49eC89dD1865Ff4272);
         transferOwnership(_opsMultisig);
         lastRatio = getRatio();
         lastClaim = block.timestamp;
