@@ -33,9 +33,9 @@ contract SushiMakerTogether is Ownable {
 
     mapping (address => uint256) public balanceOf; //Balance of users that deposit Sushi in the contract
 
-    constructor(address _sushi, address _sushiBar, address _opsMultisig) {
-        sushi = IERC20(0x6B3595068778DD592e39A122f4f5a5cF09C90fE2);
-        sushiBar = ISushiBar(0x8798249c2E607446EfB7Ad49eC89dD1865Ff4272);
+    constructor(IERC20 _sushi, ISushiBar _sushiBar, address _opsMultisig) {
+        sushi = _sushi;
+        sushiBar = _sushiBar;
         transferOwnership(_opsMultisig);
         lastRatio = getRatio();
         lastClaim = block.timestamp;
