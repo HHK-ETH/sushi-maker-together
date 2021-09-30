@@ -4,7 +4,7 @@ Community faucet to maintain the Bar served, users serving the bar receive a par
 
 ## How does it works ?
 
-Anyone can send Sushi to the contracts.
+Anyone can send Sushi to the contract.
 
 Sushi deposited are staked in the SushiBar.
 
