@@ -21,17 +21,17 @@ contract SushiMakerTogetherTest is DSTest {
         sushiBar = new SushiBar(sushi);
 
         //bootstrap sushiBar with msg.sender
-        sushi.mint(msg.sender, 2_000 * 10**18);
-        sushi.approve(address(sushiBar), 1500* 10**18);
-        multisig.enter(1500 * 10**18);
+        sushi.mint(address(this), 2_000 * 10**18);
+        sushi.approve(address(sushiBar), 1500 * 10**18);
+        sushiBar.enter(1500 * 10**18);
         sushi.transfer(address(sushiBar), 500 * 10**18);
 
         //deploy SushiMakerTogether & users
-        sushiMakerTogether = new SushiMakerTogether(sushi, sushiBar, msg.sender);
+        sushiMakerTogether = new SushiMakerTogether(sushi, sushiBar, address(this));
         userA = new User(sushi, sushiBar, sushiMakerTogether);
         userB = new User(sushi, sushiBar, sushiMakerTogether);
         multisig = new User(sushi, sushiBar, sushiMakerTogether);
-        
+
         //transfer ownership to multisig user once deployed
         sushiMakerTogether.transferOwnership(address(multisig));
 
@@ -41,5 +41,9 @@ contract SushiMakerTogetherTest is DSTest {
         sushi.mint(address(multisig), 2_000 * 10**18);
     }
 
+    function test_depositSushiFromMultisig(uint8 _amount) public {
+        multisig.approveSushi(address(sushiMakerTogether), _amount);
+        multisig.deposit(_amount, address(multisig), true);
+    }
 
 }
