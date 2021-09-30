@@ -39,6 +39,7 @@ contract SushiMakerTogether is Ownable {
         transferOwnership(_opsMultisig);
         lastRatio = getRatio();
         lastClaim = block.timestamp;
+        sushi.approve(address(sushiBar), type(uint256).max);
     }
 
     //deposit Sushi or xSushi in contract
