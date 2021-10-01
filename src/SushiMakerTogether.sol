@@ -28,7 +28,7 @@ contract SushiMakerTogether is Ownable {
     
     uint256 public LOCKED_ON_SERVING = 50; //Fee locked in the contract, start at 50%
 
-    uint256 public totalSushi; //total sushi deposited
+    uint256 public totalSushi = 0; //total sushi deposited
 
     mapping (address => uint256) public balanceOf; //Balance of users that deposit Sushi in the contract
 
@@ -36,7 +36,6 @@ contract SushiMakerTogether is Ownable {
         sushi = _sushi;
         sushiBar = _sushiBar;
         transferOwnership(_opsMultisig);
-        totalSushi = 0;
         sushi.approve(address(sushiBar), type(uint256).max);
     }
 
