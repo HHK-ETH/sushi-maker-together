@@ -35,15 +35,33 @@ contract SushiMakerTogetherTest is DSTest {
         //transfer ownership to multisig user once deployed
         sushiMakerTogether.transferOwnership(address(multisig));
 
-        //give sushi tokens to users
-        sushi.mint(address(userA), 2_000 * 10**18);
-        sushi.mint(address(userB), 2_000 * 10**18);
-        sushi.mint(address(multisig), 2_000 * 10**18);
+        //give sushi uint16.max tokens to users
+        sushi.mint(address(userA), 65535 * 10**18);
+        sushi.mint(address(userB), 65535 * 10**18);
+        sushi.mint(address(multisig), 65535 * 10**18);
     }
 
-    function test_depositSushiFromMultisig(uint8 _amount) public {
-        multisig.approveSushi(address(sushiMakerTogether), _amount);
-        multisig.deposit(_amount, address(multisig), true);
+    function test_depositSushiFromMultisig(uint16 _amount) public {
+        uint256 amount = uint256(_amount) * 10**18; //convert decimals
+        uint256 preBalance = sushiMakerTogether.balanceOf(address(multisig));
+        multisig.approveSushi(address(sushiMakerTogether), amount);
+        multisig.deposit(amount, address(multisig), true);
+        uint256 postBalance = sushiMakerTogether.balanceOf(address(multisig));
+        assertEq(preBalance + amount, postBalance);
+    }
+
+    function test_depositXSushiFromMultisig(uint16 _amount) public {
+        uint256 amount = uint256(_amount) * 10**18; //convert decimals
+        uint256 preBalance = sushiMakerTogether.balanceOf(address(multisig));
+        //convert into xSUSHI
+        multisig.approveSushi(address(sushiBar), amount);
+        multisig.enter(amount);
+        uint256 amountXSushi = sushiBar.balanceOf(address(multisig));
+        //deposit in sushiMakerTogether
+        multisig.approveXSushi(address(sushiMakerTogether), amountXSushi);
+        multisig.deposit(amountXSushi, address(multisig), false);
+        uint256 postBalance = sushiMakerTogether.balanceOf(address(multisig));
+        assertEq(preBalance + amount, postBalance);
     }
 
 }
