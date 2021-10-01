@@ -49,7 +49,7 @@ contract User {
     function claim(address _to) public {
         sushiMakerTogether.claim(_to);
     }
-    function updateFeeOnServing(uint256 _lockedOnServing) public {
-        sushiMakerTogether.updateFeeOnServing(_lockedOnServing);
+    function updateLockedOnServing(uint256 _lockedOnServing) public {
+        sushiMakerTogether.updateLockedOnServing(_lockedOnServing);
     }
 }

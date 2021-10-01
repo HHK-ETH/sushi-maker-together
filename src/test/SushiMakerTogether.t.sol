@@ -108,4 +108,13 @@ contract SushiMakerTogetherTest is DSTest {
         multisig.withdraw(amount + 1, address(multisig), true);
     }
 
+    function test_update_lockedOnServing() public {
+        multisig.updateLockedOnServing(20);
+        assertEq(20, sushiMakerTogether.LOCKED_ON_SERVING());
+    }
+    
+    function testFail_update_lockedOnServing_not_owner() public {
+        sushiMakerTogether.updateLockedOnServing(20);
+    }
+
 }

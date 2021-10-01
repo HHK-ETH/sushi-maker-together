@@ -102,7 +102,7 @@ contract SushiMakerTogether is Ownable {
     }
 
     //update fee on serving, can be called only by the owner => OPS multisig
-    function updateFeeOnServing(uint256 _lockedOnServing) onlyOwner external {
+    function updateLockedOnServing(uint256 _lockedOnServing) onlyOwner external {
         LOCKED_ON_SERVING = _lockedOnServing;
     }
 }
