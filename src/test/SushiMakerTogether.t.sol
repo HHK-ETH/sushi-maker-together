@@ -43,25 +43,38 @@ contract SushiMakerTogetherTest is DSTest {
 
     function test_depositSushiFromMultisig(uint16 _amount) public {
         uint256 amount = uint256(_amount) * 10**18; //convert decimals
+        //pre balances
         uint256 preBalance = sushiMakerTogether.balanceOf(address(multisig));
+        uint256 preTotalSushi = sushiMakerTogether.totalSushi();
+        //deposit
         multisig.approveSushi(address(sushiMakerTogether), amount);
         multisig.deposit(amount, address(multisig), true);
+        //post balances
         uint256 postBalance = sushiMakerTogether.balanceOf(address(multisig));
+        uint256 postTotalSushi = sushiMakerTogether.totalSushi();
+        //asserts
         assertEq(preBalance + amount, postBalance);
+        assertEq(preTotalSushi + amount, postTotalSushi);
     }
 
     function test_depositXSushiFromMultisig(uint16 _amount) public {
         uint256 amount = uint256(_amount) * 10**18; //convert decimals
+        //pre balances
         uint256 preBalance = sushiMakerTogether.balanceOf(address(multisig));
+        uint256 preTotalSushi = sushiMakerTogether.totalSushi();
         //convert into xSUSHI
         multisig.approveSushi(address(sushiBar), amount);
         multisig.enter(amount);
         uint256 amountXSushi = sushiBar.balanceOf(address(multisig));
-        //deposit in sushiMakerTogether
+        //deposit
         multisig.approveXSushi(address(sushiMakerTogether), amountXSushi);
         multisig.deposit(amountXSushi, address(multisig), false);
+        //post balances
         uint256 postBalance = sushiMakerTogether.balanceOf(address(multisig));
+        uint256 postTotalSushi = sushiMakerTogether.totalSushi();
+        //asserts
         assertEq(preBalance + amount, postBalance);
+        assertEq(preTotalSushi + amount, postTotalSushi);
     }
 
 }
