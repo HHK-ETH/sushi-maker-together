@@ -9,9 +9,6 @@ import "ds-test/test.sol";
 
 contract SushiMakerTogether is Ownable {
 
-    using SafeERC20 for IERC20;
-    using SafeERC20 for SushiBar;
-
     //Let's make Sushis together !
     //                     
     //             ██████████████████
@@ -22,6 +19,15 @@ contract SushiMakerTogether is Ownable {
     // ██▒▒▓▓░░██        ██████        ██
     // ░░██▓▓    ▓▓▓▓▓▓░░████████▓▓▓▓██
     //
+    //Open vault where anyone can deposit his Sushi/xSushi to share sushiBar APY with users serving the bar.
+
+    using SafeERC20 for IERC20;
+    using SafeERC20 for SushiBar;
+
+    event LogDeposit(address indexed from, address indexed to, uint256 amount, bool isSushi);
+    event LogWithdraw(address indexed from, address indexed to, uint256 amount, bool isSushi);
+    event LogClaim(address indexed from, address indexed to, uint256 profits);
+    event LogUpdateLockedOnServing(uint256 LOCKED_ON_SERVING);
 
     SushiBar public sushiBar; //address of the sushiBar
     IERC20 public sushi; //address of the sushi token
@@ -40,8 +46,8 @@ contract SushiMakerTogether is Ownable {
     }
 
     //deposit Sushi or xSushi in contract
-    function deposit(uint256 _amount, address _to, bool isSushi) external {
-        if (isSushi) {
+    function deposit(uint256 _amount, address _to, bool _isSushi) external {
+        if (_isSushi) {
             //deposit Sushi
             balanceOf[_to] += _amount;
             totalSushi += _amount;
@@ -55,11 +61,12 @@ contract SushiMakerTogether is Ownable {
             totalSushi += sushiValue;
             sushiBar.safeTransferFrom(msg.sender, address(this), _amount);
         }
+        emit LogDeposit(msg.sender, _to, _amount, _isSushi);
     }
 
     //Withdraw Sushi or xSushi from contract
-    function withdraw(uint256 _amount, address _to, bool isSushi) external {
-        if (isSushi) {
+    function withdraw(uint256 _amount, address _to, bool _isSushi) external {
+        if (_isSushi) {
             //withdraw Sushi
             sushiBar.leave(sushiToXSushi(_amount));
             balanceOf[msg.sender] -= _amount;
@@ -73,6 +80,7 @@ contract SushiMakerTogether is Ownable {
             totalSushi -= sushiValue;
             sushiBar.safeTransfer(_to, _amount);
         }
+        emit LogWithdraw(msg.sender, _to, _amount, _isSushi);
     }
 
     //claim interest generated since last claim
@@ -85,6 +93,7 @@ contract SushiMakerTogether is Ownable {
         totalSushi += profits;
         balanceOf[_to] += profits * (100 - LOCKED_ON_SERVING) / 100;
         balanceOf[this.owner()] += profits * LOCKED_ON_SERVING / 100;
+        emit LogClaim(msg.sender, _to, profits);
     }
 
     //return Sushi value for a xSushi amount
@@ -104,5 +113,6 @@ contract SushiMakerTogether is Ownable {
     //update fee on serving, can be called only by the owner => OPS multisig
     function updateLockedOnServing(uint256 _lockedOnServing) onlyOwner external {
         LOCKED_ON_SERVING = _lockedOnServing;
+        emit LogUpdateLockedOnServing(_lockedOnServing);
     }
 }
