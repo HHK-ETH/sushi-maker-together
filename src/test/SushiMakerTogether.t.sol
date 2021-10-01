@@ -145,7 +145,7 @@ contract SushiMakerTogetherTest is DSTest {
         //asserts
         assertEq(preTotalSushi + profits, postTotalSushi);
         assertEq(preBalanceMultisig + (profits * sushiMakerTogether.LOCKED_ON_SERVING() / 100), sushiMakerTogether.balanceOf(address(multisig)));
-        assertEq(preBalanceMultisig + (profits * (100 - sushiMakerTogether.LOCKED_ON_SERVING()) / 100), sushiMakerTogether.balanceOf(address(userA)));
+        assertEq(preBalanceUserA + (profits * (100 - sushiMakerTogether.LOCKED_ON_SERVING()) / 100), sushiMakerTogether.balanceOf(address(userA)));
     }
 
 }
