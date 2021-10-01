@@ -28,20 +28,16 @@ contract SushiMakerTogetherTest is DSTest {
 
         //deploy SushiMakerTogether & users
         sushiMakerTogether = new SushiMakerTogether(sushi, sushiBar, address(this));
-        userA = new User(sushi, sushiBar, sushiMakerTogether);
-        userB = new User(sushi, sushiBar, sushiMakerTogether);
         multisig = new User(sushi, sushiBar, sushiMakerTogether);
 
         //transfer ownership to multisig user once deployed
         sushiMakerTogether.transferOwnership(address(multisig));
 
         //give sushi uint16.max tokens to users
-        sushi.mint(address(userA), 65535 * 10**18);
-        sushi.mint(address(userB), 65535 * 10**18);
         sushi.mint(address(multisig), 65535 * 10**18);
     }
 
-    function test_depositSushiFromMultisig(uint16 _amount) public {
+    function test_deposit_sushi(uint16 _amount) public {
         uint256 amount = uint256(_amount) * 10**18; //convert decimals
         //pre balances
         uint256 preBalance = sushiMakerTogether.balanceOf(address(multisig));
@@ -57,7 +53,7 @@ contract SushiMakerTogetherTest is DSTest {
         assertEq(preTotalSushi + amount, postTotalSushi);
     }
 
-    function test_depositXSushiFromMultisig(uint16 _amount) public {
+    function test_deposit_xSushi(uint16 _amount) public {
         uint256 amount = uint256(_amount) * 10**18; //convert decimals
         //pre balances
         uint256 preBalance = sushiMakerTogether.balanceOf(address(multisig));
@@ -75,6 +71,41 @@ contract SushiMakerTogetherTest is DSTest {
         //asserts
         assertEq(preBalance + amount, postBalance);
         assertEq(preTotalSushi + amount, postTotalSushi);
+    }
+
+    function test_withdraw_sushi(uint16 _amount) public {
+        uint256 amount = uint256(_amount) * 10**18; //convert decimals
+        uint256 preBalance = sushi.balanceOf(address(multisig));
+        //deposit
+        multisig.approveSushi(address(sushiMakerTogether), amount);
+        multisig.deposit(amount, address(multisig), true);
+        //withdraw
+        multisig.withdraw(amount, address(multisig), true);
+        //asserts
+        assertEq(sushiMakerTogether.balanceOf(address(multisig)), 0);
+        assertEq(sushi.balanceOf(address(multisig)), preBalance);
+    }
+    
+    function test_withdraw_xSushi(uint16 _amount) public {
+        uint256 amount = uint256(_amount) * 10**18; //convert decimals
+        uint256 amountInXSushi = sushiMakerTogether.sushiToXSushi(amount);
+        //deposit
+        multisig.approveSushi(address(sushiMakerTogether), amount);
+        multisig.deposit(amount, address(multisig), true);
+        //withdraw
+        multisig.withdraw(amountInXSushi, address(multisig), false);
+        //asserts
+        assertEq(sushiMakerTogether.balanceOf(address(multisig)), 0);
+        assertEq(sushiBar.balanceOf(address(multisig)), amountInXSushi);
+    }
+
+    function testFail_withdraw_more_sushi_than_deposited(uint16 _amount) public {
+        uint256 amount = uint256(_amount) * 10**18; //convert decimals
+        //deposit
+        multisig.approveSushi(address(sushiMakerTogether), amount);
+        multisig.deposit(amount, address(multisig), true);
+        //withdraw
+        multisig.withdraw(amount + 1, address(multisig), true);
     }
 
 }
