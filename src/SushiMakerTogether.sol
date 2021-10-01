@@ -62,14 +62,14 @@ contract SushiMakerTogether is Ownable {
         if (isSushi) {
             //withdraw Sushi
             sushiBar.leave(sushiToXSushi(_amount));
-            balanceOf[msg.sender] -= _amount; //revert on underflow
+            balanceOf[msg.sender] -= _amount;
             totalSushi -= _amount;
             sushi.safeTransfer(_to, _amount);
         }
         else {
             //withdraw xSushi
             uint256 sushiValue = xSushiToSushi(_amount);
-            balanceOf[msg.sender] -= sushiValue; //revert on underflow
+            balanceOf[msg.sender] -= sushiValue;
             totalSushi -= sushiValue;
             sushiBar.safeTransfer(_to, _amount);
         }
