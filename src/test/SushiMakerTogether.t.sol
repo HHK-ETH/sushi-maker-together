@@ -20,7 +20,7 @@ contract SushiMakerTogetherTest is DSTest {
         sushi = new SushiToken();
         sushiBar = new SushiBar(sushi);
 
-        //bootstrap sushiBar with msg.sender
+        //bootstrap sushiBar
         sushi.mint(address(this), 2_000 * 10**18);
         sushi.approve(address(sushiBar), 1500 * 10**18);
         sushiBar.enter(1500 * 10**18);
