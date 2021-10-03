@@ -29,8 +29,8 @@ contract SushiMakerTogether is Ownable {
     event LogClaim(address indexed from, address indexed to, uint256 profits);
     event LogUpdateLockedOnServing(uint256 LOCKED_ON_SERVING);
 
-    SushiBar public sushiBar; //address of the sushiBar
-    IERC20 public sushi; //address of the sushi token
+    SushiBar internal immutable sushiBar; //address of the sushiBar
+    IERC20 internal immutable sushi; //address of the sushi token
     
     uint256 public LOCKED_ON_SERVING = 50; //Fee locked in the contract, start at 50%
 
@@ -42,7 +42,7 @@ contract SushiMakerTogether is Ownable {
         sushi = _sushi;
         sushiBar = _sushiBar;
         transferOwnership(_opsMultisig);
-        sushi.approve(address(sushiBar), type(uint256).max);
+        _sushi.approve(address(_sushiBar), type(uint256).max);
     }
 
     //deposit Sushi or xSushi in contract
@@ -111,6 +111,7 @@ contract SushiMakerTogether is Ownable {
     }
 
     //update fee on serving, can be called only by the owner => OPS multisig
+    //no require or max amount since no funds at risk and we assume OPS MULTISIG is a good actor
     function updateLockedOnServing(uint256 _lockedOnServing) onlyOwner external {
         LOCKED_ON_SERVING = _lockedOnServing;
         emit LogUpdateLockedOnServing(_lockedOnServing);
