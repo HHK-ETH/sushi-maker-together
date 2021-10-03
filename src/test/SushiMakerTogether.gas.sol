@@ -4,6 +4,7 @@ pragma solidity ^0.8.0;
 import "ds-test/test.sol";
 import "./../mocks/SushiToken.sol";
 import "./../mocks/SushiBar.sol";
+import "./../interfaces/ISushiBar.sol";
 import "./../SushiMakerTogether.sol";
 
 contract SushiMakerTogetherTest is DSTest {
@@ -23,7 +24,7 @@ contract SushiMakerTogetherTest is DSTest {
         sushi.transfer(address(sushiBar), 500 * 10**18);
 
         //deploy SushiMakerTogether
-        sushiMakerTogether = new SushiMakerTogether(sushi, sushiBar, msg.sender);
+        sushiMakerTogether = new SushiMakerTogether(sushi, ISushiBar(address(sushiBar)), msg.sender);
 
         //approve sushiMakerTogether
         sushi.approve(address(sushiMakerTogether), 1000 * 10**18);

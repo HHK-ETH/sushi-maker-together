@@ -4,7 +4,7 @@ pragma solidity ^0.8.0;
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
-import "./mocks/SushiBar.sol";
+import "./interfaces/ISushiBar.sol";
 import "ds-test/test.sol";
 
 contract SushiMakerTogether is Ownable {
@@ -22,14 +22,14 @@ contract SushiMakerTogether is Ownable {
     //Open vault where anyone can deposit his Sushi/xSushi to share sushiBar APY with users serving the bar.
 
     using SafeERC20 for IERC20;
-    using SafeERC20 for SushiBar;
+    using SafeERC20 for ISushiBar;
 
     event LogDeposit(address indexed from, address indexed to, uint256 amount, bool isSushi);
     event LogWithdraw(address indexed from, address indexed to, uint256 amount, bool isSushi);
     event LogClaim(address indexed from, address indexed to, uint256 profits);
     event LogUpdateLockedOnServing(uint256 LOCKED_ON_SERVING);
 
-    SushiBar internal immutable sushiBar; //address of the sushiBar
+    ISushiBar internal immutable sushiBar; //address of the sushiBar
     IERC20 internal immutable sushi; //address of the sushi token
     
     uint256 public LOCKED_ON_SERVING = 50; //Fee locked in the contract, start at 50%
@@ -38,7 +38,7 @@ contract SushiMakerTogether is Ownable {
 
     mapping (address => uint256) public balanceOf; //Balance of users that deposit Sushi in the contract
 
-    constructor(IERC20 _sushi, SushiBar _sushiBar, address _opsMultisig) {
+    constructor(IERC20 _sushi, ISushiBar _sushiBar, address _opsMultisig) {
         sushi = _sushi;
         sushiBar = _sushiBar;
         transferOwnership(_opsMultisig);

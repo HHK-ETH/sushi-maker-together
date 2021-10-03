@@ -4,6 +4,7 @@ pragma solidity ^0.8.0;
 import "ds-test/test.sol";
 import "./../mocks/SushiToken.sol";
 import "./../mocks/SushiBar.sol";
+import "./../interfaces/ISushiBar.sol";
 import "./../SushiMakerTogether.sol";
 import "./utils/User.sol";
 
@@ -27,7 +28,7 @@ contract SushiMakerTogetherTest is DSTest {
         sushi.transfer(address(sushiBar), 500 * 10**18);
 
         //deploy SushiMakerTogether & users
-        sushiMakerTogether = new SushiMakerTogether(sushi, sushiBar, address(this));
+        sushiMakerTogether = new SushiMakerTogether(sushi, ISushiBar(address(sushiBar)), address(this));
         multisig = new User(sushi, sushiBar, sushiMakerTogether);
         userA = new User(sushi, sushiBar, sushiMakerTogether);
 
