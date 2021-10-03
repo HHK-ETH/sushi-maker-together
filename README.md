@@ -29,4 +29,7 @@ When reached, everyone can unstake their Sushi tokens and we will have incentive
 * OPS multisig can change the 50% fees locked in the contract because at one point if enough Sushi are locked, it makes no sense to lock more, so OPS multisg can set it to 0%, then 100% will go to the user serving the Bar.
 * OPS multisig can also claim all the Sushi locked from fees in the contract (not the tokens of the users just the one locked from fees), in case the contract needs to be updated.
 
+**Potential Improvements**
+* Add a register function so no need to use flashbots : register function take the address of the caller and lock the claim to only this address for the x coming blocks. This way the user serving the Bar has x block to serve and claim without being worried of frontrunning. But since this will cost more gas, I think for now flashbots bundle are better.
+
 Thanks to @Stack_bot for helping finding this idea.
